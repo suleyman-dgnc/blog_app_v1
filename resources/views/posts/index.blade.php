@@ -2,28 +2,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Blog Yazıları</h1>
-
     @if(session('success'))
         <div>{{ session('success') }}</div>
     @endif
 
-    @if($posts->count() > 0)
-        <ul>
-            @foreach($posts as $post)
-                <li>
-                    <h3>{{ $post->title }}</h3>
-                    <p>{{ $post->content }}</p>
-                    <a href="{{ route('posts.edit', $post->id) }}"> <button type="submit" class="delete-button">Düzenle</button></a>
-                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="delete-button">Sil</button>
-                    </form>
-                </li>
-            @endforeach
-        </ul>
-    @else
-        <p>Henüz yazı yok.</p>
-    @endif
+    <div class="d-flex flex-wrap">
+        @forelse($posts as $post)
+            <div class="card me-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $post->title }}</h5>
+
+                    <p class="card-text">{{ $post->content }}</p>
+
+                    <div class="d-flex">
+                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-primary me-2">Düzenle</a>
+
+                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <p>Henüz yazı yok.</p>
+        @endforelse
+    </div>
 @endsection
