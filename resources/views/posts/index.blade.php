@@ -6,6 +6,10 @@
         <div>{{ session('success') }}</div>
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger my-3">{{ session('error') }}</div>
+    @endif
+
     <div class="d-flex flex-wrap">
         @forelse($posts as $post)
             <div class="card me-2" style="width: 18rem;">
